@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Add New Recipe</title>
+</head>
+<body>
+    <div class="messages-container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div class="form-container">
+        <div class="header">
+            <h1>Add a New Recipe</h1>
+            <div class="header-links">
+                <a href="/recipes">Back to Recipes</a>
+                <a href="/logout">Log Out</a>
+            </div>
+        </div>
+        <form action="/create_recipe" method="post" class="split-form">
+            <div class="form-left">
+                <input type="hidden" name="user_id" value="{{ session['current_user']['id'] }}">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    {% if (session["data"]) and (session["data"]["name"]) %}
+                        <input type="text" name="name" class="name-input" value="{{ session['data']['name']}}">
+                    {% else %}
+                        <input type="text" name="name" class="name-input">
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    {% if (session["data"]) and (session["data"]["description"]) %}
+                        <textarea name="description" cols="30" rows="10">{{ session['data']['description'] }}</textarea>
+                    {% else %}
+                        <textarea name="description" cols="30" rows="10"></textarea>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="instructions">Instructions</label>
+                    {% if (session["data"]) and (session["data"]["instructions"]) %}
+                        <textarea name="instructions" cols="30" rows="10">{{ session['data']['instructions'] }}</textarea>
+                    {% else %}
+                        <textarea name="instructions" cols="30" rows="10"></textarea>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-right">
+                <div class="form-group">
+                    <label for="date_made">Date Cooked/Made:</label>
+                    <input type="date" name="date_made">
+                </div>
+                <div class=form-group>
+                    <p>Under 30 minutes?</p>
+                    <input type="radio" name="under_thirty" id="yes" value="1">
+                    <label for="yes">Yes</label>
+                    <input type="radio" name="under_thirty" id="no" value="0" checked>
+                    <label for="no">No</label>
+                </div>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
